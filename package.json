@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "build:prod": "webpack -p"
+    "start:dev": "webpack-dev-server --output-public-path=/UI/dist/"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
