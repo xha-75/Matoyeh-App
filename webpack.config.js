@@ -1,9 +1,9 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-// const extractPlugin = new ExtractTextPlugin({
-//   filename: 'main.css'
-// });
+const extractPlugin = new ExtractTextPlugin({
+  filename: 'main.css'
+});
 
 // module.exports = {
 //   entry: './UI/assets/js/app.js',
@@ -40,20 +40,36 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './UI/assets/js/app.js'
+
+    app: [
+      'babel-polyfill',
+      './UI/assets/js/app.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, "./UI/dist"),
     filename: "bundle.js",
+    publicPath: '/UI/dist'
   },
   module: {
     rules: [{
-      test: /\.js?$/,
-      exclude: /node_modules/,
-      loader: "babel-loader",
-      query: {
-        presets: ["env"]
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        query: {
+          presets: ["env", "stage-0"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        use: extractPlugin.extract({
+          use: ['css-loader', 'sass-loader']
+        })
       }
-    }]
-  }
+
+    ]
+  },
+  plugins: [
+    extractPlugin
+  ]
 }
